@@ -1,6 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Typist from 'react-typist';
 import './index.css';
+
+class Winner extends React.Component {
+  render() {
+    if (!this.props.winner) {
+      return null;
+    }
+    return (
+      <Typist>
+        And the winner is: {this.props.winner ? this.props.winner : 'no'}
+      </Typist>
+    );
+  }
+}
 
 function Square(props) {
   return (
@@ -16,6 +30,7 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true,
+      label_win: Winner,
     }
   }
 
@@ -43,7 +58,7 @@ class Board extends React.Component {
     const winner = calculateWinner(this.state.squares);
     let status;
     if (winner) {
-      status = 'And the winner is: ' + winner;
+      status = '';
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -51,6 +66,9 @@ class Board extends React.Component {
     return (
       <div>
         <div className="status">{status}</div>
+        <div className="winner">
+          <Winner winner={winner}/>
+        </div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}

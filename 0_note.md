@@ -3,3 +3,6 @@ Step_0:
 
 Step_1:
   https://github.com/gandm/language-babel#installation
+
+Step_2:
+  https://ru.reactjs.org/docs/conditional-rendering.html
