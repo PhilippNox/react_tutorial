@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Typist from 'react-typist';
 import './index.css';
 
-class Winner extends React.Component {
-  render() {
-    if (!this.props.winner) {
-      return null;
-    }
-    return (
-      <Typist>
-        And the winner is: {this.props.winner ? this.props.winner : 'no'}
-      </Typist>
-    );
+function State(props) {
+  let msg;
+  if (props.winner) {
+    msg = 'Winner is: ' + (props.winner ? props.winner : 'no') + (props.value%2 ? "  👑" : "  👈");
+  } else {
+    msg = 'Next player: ' + (props.xIsNext ? 'X' : 'O');
   }
+  return (<div className="status"> {msg}</div>);
 }
 
 function Square(props) {
@@ -30,20 +26,23 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true,
-      label_win: Winner,
+      winClick: 0,
     }
   }
 
   handleClick(i) {
     const squares = this.state.squares.slice();
     if (calculateWinner(this.state.squares)) {
-      return ;
+      this.setState({
+        winClick: this.state.winClick + 1,
+      });
+    } else {
+      squares[i] = this.state.xIsNext ? 'X' : 'O';
+      this.setState({
+        squares: squares,
+        xIsNext: !this.state.xIsNext,
+      });
     }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-    });
   }
 
   renderSquare(i) {
@@ -65,10 +64,7 @@ class Board extends React.Component {
 
     return (
       <div>
-        <div className="status">{status}</div>
-        <div className="winner">
-          <Winner winner={winner}/>
-        </div>
+        <State winner={winner} value={this.state.winClick} xIsNext={this.state.xIsNext}/>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
