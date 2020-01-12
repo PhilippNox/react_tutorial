@@ -1,3 +1,8 @@
+FOR RUN:
+  - npm install
+  - npm start
+
+
 STEP_0: https://ru.reactjs.org/docs/getting-started.html#try-react
   - Создать reactjs
     - https://create-react-app.dev/docs/getting-started
